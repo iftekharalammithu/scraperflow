@@ -5,6 +5,7 @@ import Logo from "../Logo";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const DesktopSidebar = () => {
   const route = [
@@ -20,7 +21,7 @@ const DesktopSidebar = () => {
     route.find(
       (item) => item.href.length > 0 && pathname.includes(item.href)
     ) || route[0];
-
+  console.log(activeRoute);
   return (
     <div className=" relative hidden md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-2 border-separate">
       <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
@@ -32,7 +33,12 @@ const DesktopSidebar = () => {
           <Link
             key={item.label}
             href={item.href}
-            className={buttonVariants({ variant: "ghost" })}
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              activeRoute.label === item.label
+                ? "bg-primary text-black dark:bg-secondary/20"
+                : "hover:bg-primary/10 dark:hover:bg-secondary/20"
+            )}
           >
             <item.icon className="h-4 w-4" />
             {item.label}
