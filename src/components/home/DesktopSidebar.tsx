@@ -1,27 +1,40 @@
 "use client";
-import { CoinsIcon, HomeIcon, Layers2Icon, ShieldCheck } from "lucide-react";
-import React from "react";
+import {
+  CoinsIcon,
+  HomeIcon,
+  Layers2Icon,
+  MenuIcon,
+  ShieldCheck,
+} from "lucide-react";
+import React, { useState } from "react";
 import Logo from "../Logo";
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+
+const route = [
+  { href: "", label: "Home", icon: HomeIcon },
+  { href: "", label: "Workflows", icon: Layers2Icon },
+  { href: "", label: "Credentials", icon: ShieldCheck },
+  { href: "", label: "Billing", icon: CoinsIcon },
+];
 
 const DesktopSidebar = () => {
-  const route = [
-    { href: "", label: "Home", icon: HomeIcon },
-    { href: "", label: "Workflows", icon: Layers2Icon },
-    { href: "", label: "Credentials", icon: ShieldCheck },
-    { href: "", label: "Billing", icon: CoinsIcon },
-  ];
-
   const pathname = usePathname();
 
   const activeRoute =
     route.find(
       (item) => item.href.length > 0 && pathname.includes(item.href)
     ) || route[0];
-  console.log(activeRoute);
+  // console.log(activeRoute);
   return (
     <div className=" relative hidden md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-2 border-separate">
       <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
@@ -35,9 +48,10 @@ const DesktopSidebar = () => {
             href={item.href}
             className={cn(
               buttonVariants({ variant: "ghost" }),
+              "text-foreground",
               activeRoute.label === item.label
-                ? "bg-primary text-black dark:bg-secondary/20"
-                : "hover:bg-primary/10 dark:hover:bg-secondary/20"
+                ? "bg-primary  "
+                : "hover:bg-primary/20"
             )}
           >
             <item.icon className="h-4 w-4" />
@@ -50,3 +64,53 @@ const DesktopSidebar = () => {
 };
 
 export default DesktopSidebar;
+
+export const MobileSidebar = () => {
+  const [isOpen, setOpen] = useState(false);
+
+  const pathname = usePathname();
+
+  const activeRoute =
+    route.find(
+      (item) => item.href.length > 0 && pathname.includes(item.href)
+    ) || route[0];
+
+  return (
+    <div className=" block border-separate bg-background md:hidden">
+      <nav className=" container flex items-center justify-between px-8 ">
+        <Sheet open={isOpen} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant={"ghost"} size={"icon"}>
+              <MenuIcon></MenuIcon>
+            </Button>
+          </SheetTrigger>
+          <SheetContent
+            className=" w-[400px] sm:w-[540px] space-y-4"
+            side="left"
+          >
+            <Logo></Logo>
+            <div className="flex flex-col gap-1">
+              {route.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={cn(
+                    buttonVariants({ variant: "ghost" }),
+                    "text-foreground",
+                    activeRoute.label === item.label
+                      ? "bg-primary  "
+                      : "hover:bg-primary/20"
+                  )}
+                  onClick={() => setOpen(!isOpen)}
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </nav>
+    </div>
+  );
+};
