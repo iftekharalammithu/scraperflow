@@ -36,6 +36,7 @@ const UserWorkflowsSkeleton = () => {
 
 const UserWorkFlows = async () => {
   const workflow = await GetWorkflowForUser();
+  console.log(workflow);
 
   if (!workflow) {
     return (
