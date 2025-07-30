@@ -1,10 +1,28 @@
+"use client";
+import TooltipWrapper from "@/components/TooltipWrapper";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { WorkflowStatus } from "@/Types/workflow";
 import { Workflow } from "@prisma/client";
-import { FileTextIcon, PlayIcon, ShuffleIcon } from "lucide-react";
+import {
+  FileTextIcon,
+  MoreVerticalIcon,
+  PlayIcon,
+  ShuffleIcon,
+  TrashIcon,
+} from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import DeleteWorkflow from "./DeleteWorkflow";
 
 interface WorkflowCardProps {
   workflow: Workflow;
@@ -57,6 +75,10 @@ const WorkflowCard = ({ workflow }: WorkflowCardProps) => {
             <ShuffleIcon size={16}></ShuffleIcon>
             Edit
           </Link>
+          <WorkflowAction
+            workflowId={workflow.id}
+            workflowName={workflow.name}
+          ></WorkflowAction>
         </div>
       </CardContent>
     </Card>
@@ -64,3 +86,43 @@ const WorkflowCard = ({ workflow }: WorkflowCardProps) => {
 };
 
 export default WorkflowCard;
+
+const WorkflowAction = ({
+  workflowName,
+  workflowId,
+}: {
+  workflowName: string;
+  workflowId: string;
+}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <DeleteWorkflow
+        workflowId={workflowId}
+        workflowName={workflowName}
+        open={open}
+        setOpen={setOpen}
+      ></DeleteWorkflow>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant={"outline"} size={"sm"}>
+            <TooltipWrapper content={"More Actions"}>
+              <MoreVerticalIcon size={18}></MoreVerticalIcon>
+            </TooltipWrapper>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator></DropdownMenuSeparator>
+          <DropdownMenuItem
+            className="  text-destructive flex items-center gap-2"
+            onSelect={() => setOpen((open) => !open)}
+          >
+            <TrashIcon size={16}></TrashIcon>
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
+};

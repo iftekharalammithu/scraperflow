@@ -22,7 +22,7 @@ import {
 
 const route = [
   { href: "", label: "Home", icon: HomeIcon },
-  { href: "", label: "Workflows", icon: Layers2Icon },
+  { href: "/workflow", label: "Workflows", icon: Layers2Icon },
   { href: "", label: "Credentials", icon: ShieldCheck },
   { href: "", label: "Billing", icon: CoinsIcon },
 ];
