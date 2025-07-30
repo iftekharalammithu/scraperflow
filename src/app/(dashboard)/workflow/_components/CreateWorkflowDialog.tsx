@@ -26,9 +26,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation } from "@tanstack/react-query";
 import { CreateWorkflow } from "../../../../../actions/workflows/CreateWorkflow";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+
 interface CreateWorkflowDialogProps {
   triggerText?: string;
 }
@@ -38,7 +39,10 @@ const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
 
   const form = useForm<z.infer<typeof createWorkflowSchema>>({
     resolver: zodResolver(createWorkflowSchema),
-    defaultValues: {},
+    defaultValues: {
+      name: "", // Initialize with empty string instead of undefined
+      description: "", // Optional field but better to initialize
+    },
   });
 
   const { mutate, isPending } = useMutation({
@@ -61,7 +65,13 @@ const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
 
   return (
     <div>
-      <Dialog open={open} onOpenChange={setopen}>
+      <Dialog
+        open={open}
+        onOpenChange={(open) => {
+          form.reset();
+          setopen(open);
+        }}
+      >
         <DialogTrigger asChild>
           <Button variant={"project"}>
             {triggerText ?? "Create Workflow"}

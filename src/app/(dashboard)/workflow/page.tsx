@@ -1,10 +1,10 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { waitfor } from "@/lib/helper/Waitfor";
 import React, { Suspense } from "react";
 import { GetWorkflowForUser } from "../../../../actions/workflows/getworkflowsforuser";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, InboxIcon } from "lucide-react";
 import CreateWorkflowDialog from "./_components/CreateWorkflowDialog";
+import WorkflowCard from "./_components/WorkflowCard";
 const page = () => {
   return (
     <div className=" flex-1 flex flex-col h-full ">
@@ -35,10 +35,10 @@ const UserWorkflowsSkeleton = () => {
 };
 
 const UserWorkFlows = async () => {
-  const workflow = await GetWorkflowForUser();
-  console.log(workflow);
+  const workflows = await GetWorkflowForUser();
+  // console.log(workflows);
 
-  if (!workflow) {
+  if (!workflows) {
     return (
       <Alert variant={"destructive"}>
         <AlertCircle className=" w-4 h-4"></AlertCircle>
@@ -50,7 +50,7 @@ const UserWorkFlows = async () => {
     );
   }
 
-  if (workflow.length === 0) {
+  if (workflows.length === 0) {
     return (
       <div className=" flex flex-col gap-4 h-full items-center justify-center">
         <div className=" rounded-full bg-accent w-20 h-20 flex items-center justify-center">
@@ -66,7 +66,13 @@ const UserWorkFlows = async () => {
       </div>
     );
   }
-  return <div>UserWorkFlows</div>;
+  return (
+    <div className=" grid grid-cols-1 gap-4">
+      {workflows.map((workflow) => (
+        <WorkflowCard key={workflow.id} workflow={workflow}></WorkflowCard>
+      ))}
+    </div>
+  );
 };
 
 export default page;
