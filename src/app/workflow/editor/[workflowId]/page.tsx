@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
-import React, { useEffect } from "react";
+import React from "react";
 import Editor from "../../_Component/Editor";
 
 const page = async ({ params }: { params: { workflowId: string } }) => {
