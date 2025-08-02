@@ -59,7 +59,9 @@ const DeleteWorkflow = ({
           />
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={() => setconfirmtext("")}>
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             disabled={confirmtext !== workflowName || deleteMutation.isPending}
             onClick={(e) => {

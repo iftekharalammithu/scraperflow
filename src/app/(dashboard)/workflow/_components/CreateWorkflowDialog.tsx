@@ -29,6 +29,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CreateWorkflow } from "../../../../../actions/workflows/CreateWorkflow";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 interface CreateWorkflowDialogProps {
   triggerText?: string;
@@ -36,6 +37,7 @@ interface CreateWorkflowDialogProps {
 
 const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
   const [open, setopen] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof createWorkflowSchema>>({
     resolver: zodResolver(createWorkflowSchema),
@@ -47,8 +49,10 @@ const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: CreateWorkflow,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Workflow Created", { id: "create-workflow" });
+      setopen(false);
+      router.push(`/workflow/editor/${data.id}`); // Client-side redirect
     },
     onError: () => {
       toast.error("Failed to Created", { id: "create-workflow" });
@@ -57,6 +61,7 @@ const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
 
   const onsubmit = useCallback(
     (values: z.infer<typeof createWorkflowSchema>) => {
+      console.log(values);
       toast.loading("Creating workflow...", { id: "create-workflow" });
       mutate(values);
     },
@@ -78,6 +83,7 @@ const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
           </Button>
         </DialogTrigger>
         <DialogContent className=" px-0">
+          <DialogTitle>Create Workflow</DialogTitle>
           <CustomDialogHeader
             icon={Layers2Icon}
             title={"Create Workflow"}

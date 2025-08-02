@@ -11,7 +11,7 @@ export const CreateWorkflow = async (
   form: z.infer<typeof createWorkflowSchema>
 ) => {
   const { success, data } = createWorkflowSchema.safeParse(form);
-  console.log(success);
+  // console.log(success);
   if (!success) {
     throw new Error("Invalid form data");
   }
@@ -29,10 +29,10 @@ export const CreateWorkflow = async (
       ...data,
     },
   });
-  // console.log(result);
+  console.log(result);
   if (!result) {
     throw new Error("failed to create workflow");
   }
 
-  redirect(`/workflow/editor/${result.id}`);
+  return { success: true, id: result.id }; // Return instead of redirect
 };
