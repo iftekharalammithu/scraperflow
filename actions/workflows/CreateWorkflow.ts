@@ -1,10 +1,13 @@
 "use server";
 
+import { AppNodeProps } from "./../../src/Types/AppNode";
 import { prisma } from "@/lib/prismadb";
+import { CreateFlowNode } from "@/lib/workflow/CreateFlowNode";
 import { createWorkflowSchema } from "@/Schema/WorkflowSchema";
+import { TaskType } from "@/Types/TaskType";
 import { WorkflowStatus } from "@/Types/workflow";
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { Edge } from "@xyflow/react";
 import z from "zod";
 
 export const CreateWorkflow = async (
@@ -21,11 +24,18 @@ export const CreateWorkflow = async (
     throw new Error("Invalid User");
   }
 
+  const initialFlow: { nodes: AppNodeProps[]; edges: Edge[] } = {
+    nodes: [],
+    edges: [],
+  };
+
+  initialFlow.nodes.push(CreateFlowNode(TaskType.LAUNCH_BROWSER));
+
   const result = await prisma.workflow.create({
     data: {
       userId,
       status: WorkflowStatus.DRAFT,
-      definition: "TODO",
+      definition: JSON.stringify(initialFlow),
       ...data,
     },
   });

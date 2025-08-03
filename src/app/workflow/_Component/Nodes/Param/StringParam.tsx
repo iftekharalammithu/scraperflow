@@ -1,18 +1,21 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TaskParam } from "@/Types/TaskType";
-import React, { useId } from "react";
+import { ParamProps } from "@/Types/AppNode";
+import React, { useId, useState } from "react";
 
-interface ParamProps {
-  param: TaskParam;
-}
-
-const StringParam = ({ param }: ParamProps) => {
+const StringParam = ({ param, value, updateNodeParamValue }: ParamProps) => {
+  const [intervalValue, setintervalValue] = useState(value);
   const id = useId();
   return (
     <div className=" space-y-1 p-1 w-full">
       <Label htmlFor={id} className=" text-xs flex"></Label>
-      <Input id={id}></Input>
+      <Input
+        id={id}
+        value={intervalValue}
+        onBlur={(e) => updateNodeParamValue(e.target.value)}
+        placeholder="Enter value here"
+        onChange={(e) => setintervalValue(e.target.value)}
+      ></Input>
       {param.helperText && (
         <p className=" text-muted px-2">{param.helperText}</p>
       )}

@@ -14,7 +14,11 @@ const NodesComponent = memo((props: NodeProps) => {
       <NodeHeader taskType={nodeData.type}></NodeHeader>
       <NodeInputs>
         {task.inputs.map((input) => (
-          <NodeInput input={input} key={input.name}></NodeInput>
+          <NodeInput
+            nodeId={props.id}
+            input={input}
+            key={input.name}
+          ></NodeInput>
         ))}
       </NodeInputs>
     </NodeCard>
