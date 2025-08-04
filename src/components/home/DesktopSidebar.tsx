@@ -21,20 +21,19 @@ import {
 } from "../ui/sheet";
 
 const route = [
-  { href: "", label: "Home", icon: HomeIcon },
-  { href: "/workflow", label: "Workflows", icon: Layers2Icon },
-  { href: "", label: "Credentials", icon: ShieldCheck },
-  { href: "", label: "Billing", icon: CoinsIcon },
+  { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/workflows", label: "Workflows", icon: Layers2Icon },
+  { href: "/credentials", label: "Credentials", icon: ShieldCheck },
+  { href: "/billing", label: "Billing", icon: CoinsIcon },
 ];
 
 const DesktopSidebar = () => {
   const pathname = usePathname();
 
   const activeRoute =
-    route.find(
-      (item) => item.href.length > 0 && pathname.includes(item.href)
-    ) || route[0];
-  // console.log(activeRoute);
+    route.find((item) => item.href.length > 0 && pathname === item.href) ||
+    route[0];
+
   return (
     <div className=" relative hidden md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-2 border-separate">
       <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
