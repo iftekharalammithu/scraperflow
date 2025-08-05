@@ -17,7 +17,7 @@ const StringParam = ({ param, value, updateNodeParamValue }: ParamProps) => {
         onChange={(e) => setintervalValue(e.target.value)}
       ></Input>
       {param.helperText && (
-        <p className=" text-muted px-2">{param.helperText}</p>
+        <p className=" text-foreground px-2">{param.helperText}</p>
       )}
     </div>
   );

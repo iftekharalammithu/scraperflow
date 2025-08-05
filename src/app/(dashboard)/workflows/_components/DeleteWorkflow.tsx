@@ -50,7 +50,7 @@ const DeleteWorkflow = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="flex flex-col py-4 gap-2 px-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-foreground-foreground">
             If you are sure enter <b>{workflowName}</b> to confirm
           </p>
           <Input

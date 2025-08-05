@@ -1,3 +1,4 @@
+"use client";
 import {
   Accordion,
   AccordionContent,
@@ -34,10 +35,16 @@ export default TaskMenu;
 
 const TaskMenuBtn = ({ taskType }: { taskType: TaskType }) => {
   const task = TaskRegistry[taskType];
+  const onDragStart = (e: React.DragEvent, type: TaskType) => {
+    e.dataTransfer.setData("application/reactflow", type);
+    e.dataTransfer.effectAllowed = "move";
+  };
   return (
     <Button
       variant={"secondary"}
-      className=" flex justify-between items-center  w-full"
+      className=" flex justify-between items-center  w-full cursor-grabbing"
+      draggable
+      onDragStart={(e) => onDragStart(e, taskType)}
     >
       <div className=" flex gap-2 ">
         <task.icon size={20}></task.icon>

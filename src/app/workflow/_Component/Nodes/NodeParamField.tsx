@@ -3,6 +3,7 @@ import React, { useCallback } from "react";
 import StringParam from "./Param/StringParam";
 import { useReactFlow } from "@xyflow/react";
 import { AppNodeProps } from "@/Types/AppNode";
+import BrowserInstanceParam from "./Param/BrowserInstanceParam";
 
 const NodeParamField = ({
   param,
@@ -36,11 +37,19 @@ const NodeParamField = ({
           updateNodeParamValue={updateNodeParamValue}
         ></StringParam>
       );
+    case TaskParamType.BROWSER_INSTANCE:
+      return (
+        <BrowserInstanceParam
+          param={param}
+          value={""}
+          updateNodeParamValue={updateNodeParamValue}
+        ></BrowserInstanceParam>
+      );
 
     default:
       return (
         <div className=" w-full">
-          <p className=" text-xs text-muted-foreground">Not Implement</p>
+          <p className=" text-xs text-foreground-foreground">Not Implement</p>
         </div>
       );
   }

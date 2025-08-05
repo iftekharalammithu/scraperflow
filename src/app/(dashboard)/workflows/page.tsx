@@ -11,7 +11,7 @@ const page = () => {
       <div className=" flex justify-between">
         <div className=" flex flex-col">
           <h1 className=" text-3xl font-bold">Work Flows</h1>
-          <p className=" text-muted-foreground">Manage your Workflows</p>
+          <p className=" text-foreground-foreground">Manage your Workflows</p>
         </div>
         <CreateWorkflowDialog></CreateWorkflowDialog>
       </div>
@@ -58,7 +58,7 @@ const UserWorkFlows = async () => {
         </div>
         <div className=" flex flex-col gap-1 text-center">
           <p className=" font-bold ">No Workflow created yet</p>
-          <p className=" text-sm text-muted-foreground">
+          <p className=" text-sm text-foreground-foreground">
             Click the button to create your first workflow
           </p>
         </div>

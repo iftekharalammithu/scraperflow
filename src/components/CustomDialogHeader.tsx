@@ -35,7 +35,7 @@ const CustomDialogHeader = (props: CustomDialogHeaderProps) => {
             {props.subtitle && (
               <p
                 className={cn(
-                  "text-sm text-muted-foreground",
+                  "text-sm text-foreground-foreground",
                   props.subtitleClassName
                 )}
               >

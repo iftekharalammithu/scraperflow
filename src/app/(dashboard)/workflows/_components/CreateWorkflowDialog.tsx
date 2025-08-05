@@ -122,7 +122,7 @@ const CreateWorkflowDialog = ({ triggerText }: CreateWorkflowDialogProps) => {
                     <FormItem>
                       <FormLabel className=" flex gap-1 items-center">
                         Description
-                        <p className=" text-xs text-muted-foreground">
+                        <p className=" text-xs text-foreground-foreground">
                           Optional
                         </p>
                       </FormLabel>

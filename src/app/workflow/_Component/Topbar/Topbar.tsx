@@ -23,7 +23,7 @@ const Topbar = ({ title, subtitle, workflowId }: TopbarProps) => {
         <div className="">
           <p className=" font-bold text-ellipsis truncate">{title}</p>
           {subtitle && (
-            <p className=" text-xs text-muted truncate text-ellipsis">
+            <p className=" text-xs text-foreground truncate text-ellipsis">
               {subtitle}
             </p>
           )}
