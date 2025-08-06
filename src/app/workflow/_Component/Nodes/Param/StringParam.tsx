@@ -8,7 +8,9 @@ const StringParam = ({ param, value, updateNodeParamValue }: ParamProps) => {
   const id = useId();
   return (
     <div className=" space-y-1 p-1 w-full">
-      <Label htmlFor={id} className=" text-xs flex"></Label>
+      <Label htmlFor={id} className=" text-xs flex">
+        {param.name}
+      </Label>
       <Input
         id={id}
         value={intervalValue}
