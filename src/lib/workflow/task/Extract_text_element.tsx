@@ -14,6 +14,7 @@ export const EXTRACT_TEXT_ELEMENT = {
       name: "Html",
       type: TaskParamType.STRING,
       required: true,
+      variant: "textarea",
     },
     {
       name: "Selector",
