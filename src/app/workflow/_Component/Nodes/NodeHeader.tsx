@@ -23,13 +23,13 @@ const NodeHeader = ({
       <task.icon size={16}></task.icon>
       <div className=" flex justify-between items-center w-full">
         <p className=" text-sm font-bold uppercase text-foreground-foreground">
-          {task.lable}
+          {task.label}
         </p>
         <div className=" flex gap-1 items-center">
           {task.isEntryPoint && <Badge>Entry Point</Badge>}
           <Badge className=" gap-2 flex items-center text-xs">
             <CoinsIcon size={16}></CoinsIcon>
-            TODO
+            {task.credits}
           </Badge>
           {!task.isEntryPoint && (
             <>

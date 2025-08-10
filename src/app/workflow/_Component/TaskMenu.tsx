@@ -49,7 +49,7 @@ const TaskMenuBtn = ({ taskType }: { taskType: TaskType }) => {
     >
       <div className=" flex gap-2 ">
         <task.icon size={20}></task.icon>
-        {task.lable}
+        {task.label}
       </div>
     </Button>
   );
