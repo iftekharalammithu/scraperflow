@@ -1,13 +1,22 @@
 import { TaskRegistry } from "@/lib/workflow/task/registry";
-import { AppNodeProps } from "@/Types/AppNode";
+import { AppNodeMissionInputs, AppNodeProps } from "@/Types/AppNode";
 import {
   workflowExecutePlan,
   WorkflowExecutePlanPhase,
 } from "@/Types/workflow";
 import { Edge, getIncomers } from "@xyflow/react";
 
-type FlowToExecutionPlanType = {
+export enum FlowToExecutionPlanValidationError {
+  "NO_ENTRY_POINT",
+  "INVALID_INPUTS",
+}
+
+export type FlowToExecutionPlanType = {
   executionPlan?: workflowExecutePlan;
+  error?: {
+    type: FlowToExecutionPlanValidationError;
+    invalidElements?: AppNodeMissionInputs[];
+  };
 };
 
 const FlowToExecutionPlan = (
@@ -19,11 +28,20 @@ const FlowToExecutionPlan = (
   );
 
   if (!entryPoint) {
-    throw new Error("TODO: Handle This Error");
+    return {
+      error: { type: FlowToExecutionPlanValidationError.NO_ENTRY_POINT },
+    };
   }
 
+  const inputsWithErrors: AppNodeMissionInputs[] = [];
   const planned = new Set<string>();
-
+  const inValidInputs = getInvalidInputs(entryPoint, edges, planned);
+  if (inValidInputs.length > 0) {
+    inputsWithErrors.push({
+      nodeId: entryPoint.id,
+      inputs: inValidInputs,
+    });
+  }
   const executionPlan: workflowExecutePlan = [
     {
       phase: 1,
@@ -46,6 +64,10 @@ const FlowToExecutionPlan = (
         const incomers = getIncomers(currentNode, nodes, edges);
         if (incomers.every((incomer) => planned.has(incomer.id))) {
           console.log("Invalid Inputs", currentNode.id, invalidInputs);
+          inputsWithErrors.push({
+            nodeId: currentNode.id,
+            inputs: inValidInputs,
+          });
         } else {
           continue;
         }
@@ -56,6 +78,14 @@ const FlowToExecutionPlan = (
       planned.add(node.id);
     }
     executionPlan.push(nextPhase);
+  }
+  if (inputsWithErrors.length > 0) {
+    return {
+      error: {
+        type: FlowToExecutionPlanValidationError.INVALID_INPUTS,
+        invalidElements: inputsWithErrors,
+      },
+    };
   }
   return { executionPlan };
 };

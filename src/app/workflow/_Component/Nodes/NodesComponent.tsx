@@ -8,7 +8,7 @@ import NodeInputs, { NodeInput } from "./NodeInputs";
 import NodeOutputs, { NodeOutput } from "./NodeOutputs";
 import { Badge } from "@/components/ui/badge";
 
-const DEV_MODE = "true";
+const DEV_MODE = "false";
 
 const NodesComponent = memo((props: NodeProps) => {
   const nodeData = props.data as AppNodeData;

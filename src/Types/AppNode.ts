@@ -17,3 +17,8 @@ export interface ParamProps {
   disabled?: boolean;
   updateNodeParamValue: (newValue: string) => void;
 }
+
+export type AppNodeMissionInputs = {
+  nodeId: string;
+  inputs: string[];
+};
