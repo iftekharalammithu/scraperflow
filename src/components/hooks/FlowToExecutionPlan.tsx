@@ -4,7 +4,7 @@ import {
   workflowExecutePlan,
   WorkflowExecutePlanPhase,
 } from "@/Types/workflow";
-import { Edge, getIncomers } from "@xyflow/react";
+import { Edge } from "@xyflow/react";
 
 export enum FlowToExecutionPlanValidationError {
   "NO_ENTRY_POINT",
@@ -128,4 +128,17 @@ function getInvalidInputs(
     invalidInputs.push(input.name);
   }
   return invalidInputs;
+}
+
+function getIncomers(node: AppNodeProps, nodes: AppNodeProps[], edges: Edge[]) {
+  if (!node.id) {
+    return [];
+  }
+  const incomersIds = new Set();
+  edges.forEach((edge) => {
+    if (edge.target === node.id) {
+      incomersIds.add(edge.source);
+    }
+  });
+  return nodes.filter((n) => incomersIds.has(n.id));
 }
