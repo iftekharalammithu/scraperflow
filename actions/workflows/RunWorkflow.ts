@@ -2,6 +2,7 @@
 
 import FlowToExecutionPlan from "@/components/hooks/FlowToExecutionPlan";
 import { prisma } from "@/lib/prismadb";
+import { ExecuteWorkflow } from "@/lib/workflow/ExecuteWorkflow";
 import { TaskRegistry } from "@/lib/workflow/task/registry";
 import {
   ExecutionPhaseStatus,
@@ -76,5 +77,6 @@ export async function RunWorkflow(form: {
   if (!execution) {
     throw new Error("Workflow Execution not created");
   }
+  ExecuteWorkflow(execution.id);
   redirect(`/workflow/runs/${workflowId}/${execution.id}`);
 }

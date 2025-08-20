@@ -20,6 +20,10 @@ model Workflow {
   definition String
   status String
 
+  lastRunAt DateTime?
+  lastRunId String?
+  lastRunStatus String?
+
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -27,6 +31,8 @@ model Workflow {
   @@unique([name , userId])
   
 }
+
+
 
 model WorkflowExecution {
   id String @id @default(cuid())
@@ -39,6 +45,7 @@ model WorkflowExecution {
   startedAt DateTime?
   completed DateTime?
 
+  CreditConsumed Int @default(0)
   phases ExecutionPhase[]
 
 
