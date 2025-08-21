@@ -1,3 +1,4 @@
+import { ExecutionEnvironment } from "./../../Types/Environment";
 import { environment } from "./../../../node_modules/puppeteer-core/lib/esm/puppeteer/environment";
 import "server-only";
 import { prisma } from "../prismadb";
@@ -167,7 +168,9 @@ async function executePhase(
   if (!runFn) {
     return false;
   }
-  return await runFn(environment);
+  const executionEnvironment: ExecutionEnvironment<any> =
+    createExecutionEnvironment(node, environment);
+  return await runFn(executionEnvironment);
 }
 
 function setupEnvironmentForPhase(
@@ -183,4 +186,13 @@ function setupEnvironmentForPhase(
       continue;
     }
   }
+}
+
+function createExecutionEnvironment(
+  node: AppNodeProps,
+  environment: Environment
+) {
+  return {
+    getInput: (name: string) => environment.phases[node.id].inputs[name],
+  };
 }

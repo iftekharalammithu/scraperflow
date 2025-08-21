@@ -1,10 +1,12 @@
-import { Environment } from "@/Types/Environment";
+import { Environment, ExecutionEnvironment } from "@/Types/Environment";
 import puppeteer from "puppeteer";
+import { LaunchBrowserTask } from "../task/LaunchBrowser";
 
 export async function LaunchBrowserExecutor(
-  environment: Environment
+  environment: ExecutionEnvironment<typeof LaunchBrowserTask>
 ): Promise<boolean> {
   try {
+    const websiteUrl = environment.getInput("Website Url");
     const browser = await puppeteer.launch({
       headless: false,
     });
